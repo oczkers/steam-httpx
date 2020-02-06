@@ -1,7 +1,8 @@
 import json
 import sys
 import re
-import requests
+# import requests
+import httpx
 from steam.enums.base import SteamIntEnum
 from steam.enums import EType, EUniverse, EInstanceFlag
 from steam.util.web import make_requests_session
@@ -421,7 +422,8 @@ def steam64_from_url(url, http_timeout=30):
 
             if data_match:
                 return int(data_match.group('steamid'))
-    except requests.exceptions.RequestException:
+    # except requests.exceptions.RequestException:
+    except httpx.HTTPError:
         return None
 
 

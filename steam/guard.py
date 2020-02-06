@@ -48,7 +48,8 @@ details on what is required for it to work.
 import json
 import subprocess
 import struct
-import requests
+# import requests
+import httpx
 from base64 import b64decode, b64encode
 from binascii import hexlify
 from time import time
@@ -134,7 +135,8 @@ class SteamAuthenticator(object):
 
             try:
                 resp = webapi.post('ITwoFactorService', action, 1, params=params)
-            except requests.exceptions.RequestException as exp:
+            # except requests.exceptions.RequestException as exp:
+            except httpx.HTTPError as exp:
                 raise SteamAuthenticatorError("Error adding via WebAPI: %s" % str(exp))
 
             resp = resp['response']

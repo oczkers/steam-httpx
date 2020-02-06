@@ -1,4 +1,5 @@
-import requests
+# import requests
+import httpx
 from binascii import hexlify
 from steam.core.crypto import sha1_hash, random_bytes
 
@@ -7,7 +8,8 @@ def make_requests_session():
     :returns: requests session
     :rtype: :class:`requests.Session`
     """
-    session = requests.Session()
+    # session = requests.Session()
+    session = httpx.Client()
 
     version = __import__('steam').__version__
     ua = "python-steam/{0} {1}".format(version,

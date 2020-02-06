@@ -59,7 +59,8 @@ from time import time
 from base64 import b64encode
 from getpass import getpass
 import six
-import requests
+# import requests
+import httpx
 
 from steam import webapi
 from steam.steamid import SteamID
@@ -116,7 +117,8 @@ class WebAuth(object):
                                          'donotchache': int(time() * 1000),
                                          },
                                      ).json()
-        except requests.exceptions.RequestException as e:
+        # except requests.exceptions.RequestException as e:
+        except httpx.HTTPError as e:
             raise HTTPError(str(e))
 
         return resp
@@ -147,7 +149,8 @@ class WebAuth(object):
 
         try:
             return self.session.post('https://steamcommunity.com/login/dologin/', data=data, timeout=15).json()
-        except requests.exceptions.RequestException as e:
+        # except requests.exceptions.RequestException as e:
+        except httpx.HTTPError as e:
             raise HTTPError(str(e))
 
     def _finalize_login(self, login_response):
@@ -314,7 +317,8 @@ class MobileWebAuth(WebAuth):
 
         try:
             return self.session.post('https://steamcommunity.com/login/dologin/', data=data, timeout=15).json()
-        except requests.exceptions.RequestException as e:
+        # except requests.exceptions.RequestException as e:
+        except httpx.HTTPError as e:
             raise HTTPError(str(e))
         finally:
             self.session.cookies.pop('mobileClientVersion', None)
